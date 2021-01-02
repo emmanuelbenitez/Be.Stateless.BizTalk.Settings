@@ -1,6 +1,6 @@
 ﻿#region Copyright & License
 
-// Copyright © 2012 - 2020 François Chabot
+// Copyright © 2012 - 2021 François Chabot
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,31 +22,31 @@ using Moq;
 
 namespace Be.Stateless.BizTalk.Settings
 {
-	[SuppressMessage("Design", "CA1063:Implement IDisposable Correctly")]
-	[SuppressMessage("ReSharper", "MemberCanBeProtected.Global", Justification = "Public API.")]
-	[SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Public API.")]
-	public class SsoConfigurationReaderMockInjectionScope : IDisposable
-	{
-		public SsoConfigurationReaderMockInjectionScope()
-		{
-			_ssoConfigurationReader = SsoConfigurationReader.Instance;
-			Mock = new Mock<ISsoConfigurationReader>();
-			SsoConfigurationReader.Instance = Mock.Object;
-		}
+    [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly")]
+    [SuppressMessage("ReSharper", "MemberCanBeProtected.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Public API.")]
+    public class SsoConfigurationReaderMockInjectionScope : IDisposable
+    {
+        public SsoConfigurationReaderMockInjectionScope()
+        {
+            _ssoConfigurationReader = SsoConfigurationReader.Instance;
+            Mock = new Mock<ISsoConfigurationReader>();
+            SsoConfigurationReader.Instance = Mock.Object;
+        }
 
-		#region IDisposable Members
+        #region IDisposable Members
 
-		[SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize")]
-		public void Dispose()
-		{
-			SsoConfigurationReader.Instance = _ssoConfigurationReader;
-		}
+        [SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize")]
+        public void Dispose()
+        {
+            SsoConfigurationReader.Instance = _ssoConfigurationReader;
+        }
 
-		#endregion
+        #endregion
 
-		[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-		public Mock<ISsoConfigurationReader> Mock { get; }
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+        public Mock<ISsoConfigurationReader> Mock { get; }
 
-		private readonly ISsoConfigurationReader _ssoConfigurationReader;
-	}
+        private readonly ISsoConfigurationReader _ssoConfigurationReader;
+    }
 }
