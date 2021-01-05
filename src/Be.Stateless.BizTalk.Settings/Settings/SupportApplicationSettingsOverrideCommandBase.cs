@@ -1,6 +1,6 @@
 ﻿#region Copyright & License
 
-// Copyright © 2012 - 2020 François Chabot
+// Copyright © 2012 - 2021 François Chabot
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,14 +22,35 @@ using System.Diagnostics.CodeAnalysis;
 namespace Be.Stateless.BizTalk.Settings
 {
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public abstract class SupportApplicationSettingsOverrideCommandBase
+    public abstract class SupportApplicationSettingsOverrideCommandBase : IDisposable
     {
-        public Type ApplicationSettingOverrideType { get; set; }
+        #region IDisposable Members
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly")]
+        public void Dispose()
+        {
+            CleanUpApplicationSettingsContext();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
+        public Type ApplicationSettingsOverrideType { get; set; }
 
         protected internal void SetUpApplicationSettingsContext()
         {
-            if (ApplicationSettingOverrideType != null)
-                ApplicationSettingsOverrideContext.Current = (IApplicationSettings) Activator.CreateInstance(ApplicationSettingOverrideType);
+            if (ApplicationSettingsOverrideType != null)
+                ApplicationSettingsOverrideContext.Current = (IApplicationSettings) Activator.CreateInstance(ApplicationSettingsOverrideType);
         }
+
+        private void CleanUpApplicationSettingsContext()
+        {
+            if (ApplicationSettingsOverrideType != null) ApplicationSettingsOverrideContext.Current = null;
+        }
+
+        protected virtual void Dispose(bool disposing) { }
+
+
     }
 }

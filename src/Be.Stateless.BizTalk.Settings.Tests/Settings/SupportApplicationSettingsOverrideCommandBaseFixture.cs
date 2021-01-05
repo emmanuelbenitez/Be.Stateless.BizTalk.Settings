@@ -29,7 +29,7 @@ namespace Be.Stateless.BizTalk.Settings
         public void OverrideApplicationSettings()
         {
             var mock = new Mock<SupportApplicationSettingsOverrideCommandBase>();
-            mock.Object.ApplicationSettingOverrideType = typeof(DummyApplicationSettings);
+            mock.Object.ApplicationSettingsOverrideType = typeof(DummyApplicationSettings);
             mock.Object.SetUpApplicationSettingsContext();
             ApplicationSettingsOverrideContext.Current.Should().NotBeNull().And.BeOfType<DummyApplicationSettings>();
         }
